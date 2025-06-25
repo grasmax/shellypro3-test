@@ -4,7 +4,7 @@ Python test script for use with ShellyPro3.
 Der 3-Kanal-Schalter ShellyPro3 ersetzt ein RaspberryPi-Relailboard und Stromstoßschalter mit KM12-Rückmeldemodulen.
 
 ## Warum?
-Nicht behebbare Abstürze beim Schalten von Relais auf dem [Raspi-Relay-Board](https://github.com/grasmax/AcOnOff/blob/main/doc/Inbetriebnahme%20eines%20Steuerrechners%20f%C3%BCr%20eine%20Photovoltaikinsel.pdf).
+Nicht behebbare Abstürze beim Schalten von Relais auf dem [Raspi-Relay-Board](https://github.com/grasmax/AcOnOff/blob/main/doc/Inbetriebnahme%20eines%20Steuerrechners%20f%C3%BCr%20eine%20Photovoltaikinsel.pdf) (Siehe Seite 22).
 
 Aktuell werden 2 Schalter benötigt: 48VDC für Schaltschütz und 5VDC für OpenDTU-Funkeinheit.
 
