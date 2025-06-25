@@ -50,4 +50,6 @@ Vor dem Reboot eingeschaltete Relais sind nach dem Reboot sofort wieder eingesch
 ## Shelly-Doku
 https://shelly-api-docs.shelly.cloud/gen2/General/RPCProtocol
 
+https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Switch/
+
 
