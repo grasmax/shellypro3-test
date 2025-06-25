@@ -35,7 +35,9 @@ Dritter Schalter in Reserve.
 
 ## Test mit Multimeter: alle drei Kanäle schalten richtig
  Id 0 - Out 1/rechts (von vorn gesehen)
+ 
  Id 1 - Out 2/Mitte
+ 
  Id 2 - Out 3/links
  
 ![image](https://github.com/user-attachments/assets/3bdda053-11eb-4021-8993-5614f5edf50b)
