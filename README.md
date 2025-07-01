@@ -42,4 +42,14 @@ Dritter Schalter in Reserve.
  
 ![image](https://github.com/user-attachments/assets/3bdda053-11eb-4021-8993-5614f5edf50b)
 
-## Reboot-Test: eingeschaltete Relais bleiben eingeschaltet
+## Reboot-Test
+Vor dem Reboot ausgeschaltete Relais sind nach dem Reboot sofort wieder ausgeschaltet.
+
+Vor dem Reboot eingeschaltete Relais sind nach dem Reboot sofort wieder eingeschaltet.
+
+## Shelly-Doku
+https://shelly-api-docs.shelly.cloud/gen2/General/RPCProtocol
+
+https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Switch/
+
+
