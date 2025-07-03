@@ -9,7 +9,7 @@ import requests
 ShellyPro3Ip = '192.168.1.100'
 
 ###### HoleShellyStatus(Id) ##############################################################################
-def HoleShellyStatus(Id):
+def HoleShellyStatusIntern(Id):
    try:
       sReq = f'http://{ShellyPro3Ip}/rpc/Switch.GetStatus?id={Id}'
 
@@ -18,20 +18,80 @@ def HoleShellyStatus(Id):
 
       sId = jStat['id'] if (jStat.get('id') != None) else ''
       sOutput = jStat['output'] if (jStat.get('output') != None) else ''
-      sTemp = f'{jStat["temperature"]["tC"]}°C' if jStat["temperature"]["tC"] != None else ''
-      
+      sTemp = f'{jStat["temperature"]["tC"]}' if jStat["temperature"]["tC"] != None else ''
+
       print(f'Kanal-Id: {sId}: output: {sOutput}, temperature.tC: {sTemp}')
-      
-      if sOutput == False:
-         return 'false'
-      elif sOutput == True:
-         return 'true'
-      else:
-         return ''
+
+      jRv = {
+         "Id": sId,
+         "EinAus": "Aus" if sOutput == False else "Ein" if sOutput == True else "??",
+         "Temp": sTemp,
+         "rv": "okok"
+      }
+
+      return jRv
 
    except Exception as e:
-      print( f'Ausnahme in HoleShellyStatus(Id={Id}): {e}')
-      return -1
+      sAusn = f'Ausnahme in HoleShellyStatus(Id={Id}): {e}'
+      print(sAusn)
+      jRv = {
+         "Id": "",
+         "EinAus": "??",
+         "Temp": "",
+         "rv": sAusn
+      }
+      return jRv
+
+
+###### HoleShellyStatus123() ##############################################################################
+def HoleShellyStatus123():
+   try:
+      sOut = ''
+      
+      jRv = HoleShellyStatusIntern(0)
+      if jRv["rv"] == "okok":
+         sOut += f'Id {jRv["Id"]} (230V für MPII): {jRv["EinAus"]}, Temperatur: {jRv["Temp"]}°C'
+      
+      jRv = HoleShellyStatusIntern(1)
+      if jRv["rv"] == "okok":
+         if len(sOut) > 0:
+            sOut += '\r\n'
+         sOut += f'Id {jRv["Id"]} (5V für OpenDTU): {jRv["EinAus"]}, Temperatur: {jRv["Temp"]}°C'
+
+      jRv = HoleShellyStatusIntern(2)
+      if jRv["rv"] == "okok":
+         if len(sOut) > 0:
+            sOut += '\r\n'
+         sOut += f'Id {jRv["Id"]} (Reserve): {jRv["EinAus"]}, Temperatur: {jRv["Temp"]}°C'
+      
+      return sOut
+
+   except Exception as e:
+      sAusn = f'Ausnahme in HoleShellyStatus(Id={Id}): {e}'
+      print(sAusn)
+      return sAusn
+
+
+
+###### HoleShellyStatus(Id) ##############################################################################
+def HoleShellyStatus(Id):
+   try:
+      jRv = HoleShellyStatusIntern(Id)
+      if jRv["rv"] != "okok":
+         return jRv["rv"]
+      
+      if jRv["EinAus"] == "Aus":
+         return 'false'
+      elif jRv["EinAus"] == "Ein":
+         return 'true'
+      else:
+         return jRv["EinAus"]
+
+   except Exception as e:
+      sAusn = f'Ausnahme in HoleShellyStatus(Id={Id}): {e}'
+      print(sAusn)
+      return sAusn
+
 
 ###### ShellySendeSchaltimpuls( Id=[0||1||2], sEinAus=[true||false]) ##############################################################################
 # Id 0 - Out 1/rechts (von vorn gesehen)
@@ -53,7 +113,10 @@ def ShellySendeSchaltimpuls( Id, TrueFalse):
 
       jStat = requests.get( sReq, headers={'Content-Type': 'application/json'}).json()
 
-      print(f'was_on: {jStat["was_on"]}')
+      if (jStat.get('was_on') != None):
+         print(f"was_on: {jStat['was_on']}")
+      else:
+         print(jStat)
       
       time.sleep(0.5) # warten, bis das Relais umgeschaltet hat
             
@@ -74,7 +137,12 @@ def main(argv):
 
       iArgs = len(argv)
 
-      if iArgs == 2:
+      if iArgs == 1:
+         HoleShellyStatus(0)
+         HoleShellyStatus(1)
+         HoleShellyStatus(2)
+         
+      elif iArgs == 2:
 
          id = int(argv[1])
          HoleShellyStatus(id)
